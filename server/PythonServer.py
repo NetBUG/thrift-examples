@@ -27,15 +27,18 @@ from thrift.server import TServer
 # Server implementation
 class ExampleHandler:
     # return current time stamp
-    def showCurrentTimestamp(self):
+    def showCurrentTimestamp(self, data):
+        print ("Data input: " + str(data))
+        print('Assume that this work takes 1 seconds')
+        time.sleep(1)
         timeStamp = time.time()
         return str(timeStamp)
 
     # print something to string, wait 10 secs, than print something again
     def asynchronousJob(self):
-        print 'Assume that this work takes 10 seconds'
+        print('Assume that this work takes 10 seconds')
         time.sleep(10)
-        print 'Job finished, but client didn\'t wait for 10 seconds'
+        print('Job finished, but client didn\'t wait for 10 seconds')
 
 
 # set handler to our implementation
@@ -49,5 +52,5 @@ pfactory = TBinaryProtocol.TBinaryProtocolFactory()
 # set server
 server = TServer.TThreadedServer(processor, transport, tfactory, pfactory)
 
-print 'Starting server'
+print ('Starting server')
 server.serve()

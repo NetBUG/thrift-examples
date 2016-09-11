@@ -31,12 +31,13 @@ require_once $GEN_DIR . '/Example/Example_types.php';
 // Set server host and port
 $host = "localhost";
 $port = 9090;
-
+$timeout = 10000;	//~ Milliseconds
 
 try {
 
     //Thrift connection handling
     $socket = new TSocket( $host , $port );
+    $socket->setRecvTimeout($timeout);
     $transport = new TBufferedTransport($socket, 1024, 1024);
     $protocol = new TBinaryProtocol($transport);
 
@@ -45,7 +46,7 @@ try {
     $transport->open(); 
 
     // Get current timestamp from server
-    $currentTimeStamp = $client->showCurrentTimestamp();
+    $currentTimeStamp = $client->showCurrentTimestamp("Hello");
     echo $currentTimeStamp;
 
     // Assume that you have a job which takes some time
